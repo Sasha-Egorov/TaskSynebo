@@ -6,5 +6,4 @@ trigger CaseTrigger on Case (after insert, after update, after delete, after und
 
     CaseTriggerHandler projectTrigger = new CaseTriggerHandler();
     projectTrigger.run();
-
 }
