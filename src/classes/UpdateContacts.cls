@@ -3,7 +3,7 @@
  */
 
 public without sharing class UpdateContacts {
-    public void updateContactsAndCases(Map<Id, String> caseWithStatus) {
+    public void updateContactsAndCases(Set<Id> caseWithStatus) {
 
         if (caseWithStatus.isEmpty()) {
             return;
@@ -11,38 +11,30 @@ public without sharing class UpdateContacts {
         List<Contact> contacts = [
                 SELECT Id,Count_Closed_Case__c, Count_Open_Case__c
                 FROM Contact
-                WHERE Id = :caseWithStatus.keySet()
+                WHERE Id = :caseWithStatus
+        ];
+        Map<Id, Integer> resultStatusClosed = new Map<Id, Integer>();
+        Map<Id, Integer> resultStatusOpen = new Map<Id, Integer>();
+
+        List<AggregateResult> aggregateResultsCases = [
+                SELECT ContactId contact, IsClosed status, COUNT(Id) countStatus
+                FROM Case
+                WHERE ContactId = :caseWithStatus
+                GROUP BY ContactId, IsClosed
         ];
 
-
-        Map<Id, Integer> resultStatusClosed = new Map<Id, Integer>();
-        if (!caseWithStatus.isEmpty()) {
-            List<AggregateResult> aggregateResultsClosedCases = [
-                    SELECT ContactId, COUNT(Id) countStatus
-                    FROM Case
-                    WHERE Status = 'Closed' AND ContactId = :caseWithStatus.keySet()
-                    GROUP BY ContactId
-            ];
-
-            for (AggregateResult aggregateResult_i : aggregateResultsClosedCases) {
-                Id ContactsId = (Id) aggregateResult_i.get('ContactId');
-                Integer CountStatusClosed = (Integer) aggregateResult_i.get('countStatus');
-                resultStatusClosed.put(ContactsId, CountStatusClosed);
-            }
-        }
-        Map<Id, Integer> resultStatusOpen = new Map<Id, Integer>();
-        if (!caseWithStatus.isEmpty()) {
-            List<AggregateResult> aggregateResultsOpenCases = [
-                    SELECT ContactId, COUNT(Id) countStatus
-                    FROM Case
-                    WHERE Status != 'Closed' AND ContactId = :caseWithStatus.keySet()
-                    GROUP BY ContactId
-            ];
-
-            for (AggregateResult aggregateResult_i : aggregateResultsOpenCases) {
-                Id ContactsId = (Id) aggregateResult_i.get('ContactId');
-                Integer CountStatusClosed = (Integer) aggregateResult_i.get('countStatus');
-                resultStatusOpen.put(ContactsId, CountStatusClosed);
+        for (AggregateResult aggregateResult_i : aggregateResultsCases) {
+            Id ContactsId = (Id) aggregateResult_i.get('contact');
+            if ( caseWithStatus.contains(ContactsId)) {
+                Boolean StatusClosed = (Boolean) aggregateResult_i.get('status');
+                if (StatusClosed) {
+                    Integer CountStatusClosed = (Integer) aggregateResult_i.get('countStatus');
+                    resultStatusClosed.put(ContactsId, CountStatusClosed) ;
+                }
+                if (!StatusClosed) {
+                    Integer CountStatusClosed1 = (Integer) aggregateResult_i.get('countStatus');
+                    resultStatusOpen.put(ContactsId, CountStatusClosed1);
+                }
             }
         }
 
