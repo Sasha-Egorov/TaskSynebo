@@ -2,7 +2,7 @@
  * Created by Synebo on 20.09.2021.
  */
 
-public without sharing class UpdateContacts {
+public without sharing class UpdateContacts{
     public void updateContactsAndCases(Set<Id> caseWithStatus) {
 
         if (caseWithStatus.isEmpty()) {

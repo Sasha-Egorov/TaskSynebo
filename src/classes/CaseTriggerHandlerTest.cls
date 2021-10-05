@@ -4,7 +4,7 @@
 @IsTest
 public with sharing class CaseTriggerHandlerTest {
 
-    @IsTest static void caseTriggerTests() {
+    @IsTest static void countCaseUpdateTests() {
 
         UpdateContacts upd = new UpdateContacts();
         Set<Id> setId = new Set<Id>();
