@@ -1,4 +1,3 @@
-
 import { LightningElement,api } from 'lwc';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import createAccountShare from '@salesforce/apex/ShareAccountController.createAccountShare';
@@ -10,7 +9,6 @@ userOrGroupId;
     handleChange(event){
         this.userOrGroupId = event.target.value;
     }
-
     closeAction(){
         this.dispatchEvent(new CloseActionScreenEvent());
     }
