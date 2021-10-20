@@ -15,11 +15,8 @@ userOrGroupId;
         this.dispatchEvent(new CloseActionScreenEvent());
     }
     Save(){
-        console.log(this.recordId);
-        console.log(this.userOrGroupId);
         createAccountShare({recordId: this.recordId , userOrGroupId: this.userOrGroupId}).
         then(response => {
-            console.log(response);
             }).catch(e => {
                 console.log(e);
                 });
