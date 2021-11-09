@@ -6,9 +6,8 @@ export default class MyDatatable extends LightningDatatable {
         accountInfo:{
             template: account,
             standardCellLayout : true,
-            typeAttributes:['accountName','accountIndustry', 'accountRating', 'accountId']
-            }
-        };
-
-    }
+            typeAttributes:['accountIndustry', 'accountRating', 'accountId']
+        }
+    };
+}
 

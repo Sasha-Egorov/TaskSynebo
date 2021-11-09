@@ -8,11 +8,11 @@ public with sharing class DatatableController {
     public static List<Wrapper> getContacts(String accountId) {
         List<Contact> contactsList = new List<Contact>();
         List<Wrapper> wrappers = new List<Wrapper>();
-        if(accountId == null) {
-            contactsList = [SELECT Id, Name, Phone, Title,AccountId, Account.Name, Account.Industry, Account.Rating FROM Contact];
-        } else {
-            contactsList = [SELECT Id, Name, Phone, Title,AccountId, Account.Name, Account.Industry, Account.Rating FROM Contact WHERE AccountId = :accountId];
+        String query = 'SELECT Id, Name, Phone, Title,AccountId, Account.Name, Account.Industry, Account.Rating FROM Contact';
+        if(accountId != null) {
+            query += ' WHERE AccountId = :accountId';
         }
+        contactsList = Database.query(query);
         for(Contact contact_i : contactsList){
             Wrapper wrapper = new Wrapper();
             wrapper.contactName=contact_i.Name;

@@ -3,7 +3,6 @@ import { NavigationMixin } from 'lightning/navigation';
 export default class MyCustomComp extends NavigationMixin(LightningElement) {
         @api accountRating;
         @api accountIndustry;
-        @api accountName;
         @api accountId;
         checked;
 
