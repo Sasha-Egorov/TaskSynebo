@@ -1,0 +1,20 @@
+<template>
+    <section if:true={checked} class="slds-popover slds-popover_tooltip slds-nubbin_right" role="tooltip" style="position:absolute;top:0px;left:-100px">
+        <div class="slds-popover__body">
+            <section if:true={accountRating}>
+                {accountRating}
+            </section>
+            <section if:true={accountIndustry}>
+                {accountIndustry}
+            </section>
+        </div>
+    </section>
+    <div class="anchor slds-show">
+        <div class="slds-float_top" style="text-align:center;">
+            <lightning-button-icon
+                    icon-name="custom:custom51"
+                    onclick={openPop}  onmouseover={showData} onmouseout={hideData} >
+            </lightning-button-icon>
+        </div>
+    </div>
+</template>
